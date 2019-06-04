@@ -6,10 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import model.controller.LivroController;
 import model.vo.LivroVO;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
@@ -17,7 +17,9 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class ListaLivros extends JFrame {
 
@@ -66,25 +68,24 @@ public class ListaLivros extends JFrame {
 		separator.setBounds(10, 230, 567, 2);
 		contentPane.add(separator);
 		
-		JButton btConsultar = new JButton("Consultar");
-		btConsultar.setBounds(450, 196, 127, 23);
-		contentPane.add(btConsultar);
+		JButton btConsulta1 = new JButton("1º caso");
+		btConsulta1.setBounds(10, 198, 127, 23);
+		contentPane.add(btConsulta1);
 		
 		tbLivros = new JTable();
+		tbLivros.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"ID", "Titulo", "Autor", "Edi\u00E7\u00E3o"},
+			},
+			new String[] {
+				"ID", "Titulo", "Autor", "Edi\u00E7\u00E3o"
+			}
+		));
+		tbLivros.getColumnModel().getColumn(1).setPreferredWidth(214);
+		tbLivros.getColumnModel().getColumn(2).setPreferredWidth(214);
+		tbLivros.getColumnModel().getColumn(3).setPreferredWidth(109);
 		tbLivros.setBounds(0, 244, 587, 138);
 		contentPane.add(tbLivros);
-		
-		JComboBox cbAutor = new JComboBox();
-		cbAutor.setBounds(10, 199, 127, 20);
-		contentPane.add(cbAutor);
-		
-		JComboBox cbTitulo = new JComboBox();
-		cbTitulo.setBounds(147, 199, 130, 20);
-		contentPane.add(cbTitulo);
-		
-		JComboBox cbEdicao = new JComboBox();
-		cbEdicao.setBounds(287, 199, 127, 20);
-		contentPane.add(cbEdicao);
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(10, 149, 567, 2);
@@ -124,25 +125,41 @@ public class ListaLivros extends JFrame {
 		JButton btSalvar = new JButton("Salvar");
 		btSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				livro.setNome(tfTitulo.getText());
-				livro.setNome(tfAutor.getText());
-				livro.setNome(tfEdicao.getText());
+				livro.setTitulo(tfTitulo.getText());
+				livro.setAutor(tfAutor.getText());
+				livro.setEdicao(tfEdicao.getText());
 				controller.salvar(livro);
 			}
 		});
 		btSalvar.setBounds(241, 117, 94, 23);
 		contentPane.add(btSalvar);
 		
-		JLabel lblAutorCbBox = new JLabel("Autor");
-		lblAutorCbBox.setBounds(13, 181, 46, 14);
-		contentPane.add(lblAutorCbBox);
+		JButton btConsulta2 = new JButton("2º caso");
+		btConsulta2.setBounds(147, 198, 127, 23);
+		contentPane.add(btConsulta2);
 		
-		JLabel lblTituloCbBox = new JLabel("Título");
-		lblTituloCbBox.setBounds(149, 181, 46, 14);
-		contentPane.add(lblTituloCbBox);
+		JButton btConsulta3 = new JButton("2º caso");
+		btConsulta3.setBounds(284, 198, 127, 23);
+		contentPane.add(btConsulta3);
+	}
+	protected void atualizarTabelaSimulacoes(List<LivroVO> livros) {
+		// Limpa a tabela
+		Object[][] header = new Object[][] {new String[] { "ID", "Titulo", "Autor", "Edição" }};
+		String[] registros = new String[] { "ID", "Titulo", "Autor", "Edição" };
 		
-		JLabel lblEdicaoCbBox = new JLabel("Edição");
-		lblEdicaoCbBox.setBounds(289, 182, 46, 14);
-		contentPane.add(lblEdicaoCbBox);
+		tbLivros.setModel(new DefaultTableModel(header,
+				registros));
+
+		DefaultTableModel modelo = (DefaultTableModel) tbLivros.getModel();
+
+		for (LivroVO livro : livros) {
+			// Crio uma nova linha na tabela
+			// Preencher a linha com os atributos do livro
+			// na ORDEM do cabeçalho da tabela
+			
+			Object[] novaLinha = new Object[] { livro.getIdLivro(), livro.getTitulo(), livro.getAutor(), livro.getEdicao() };
+			modelo.addRow(novaLinha);
+		}
+
 	}
 }

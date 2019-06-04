@@ -3,19 +3,19 @@ package model.vo;
 public class LivroVO {
 
 	private int idLivro;
-	private String nome;
-	private String ano;
+	private String titulo;
+	private String edicao;
 	private String autor;
 	
 	public LivroVO() {
 		super();
 	}
 
-	public LivroVO(int idLivro, String nome, String ano, String autor) {
+	public LivroVO(int idLivro, String titulo, String edicao, String autor) {
 		super();
 		this.idLivro = idLivro;
-		this.nome = nome;
-		this.ano = ano;
+		this.titulo = titulo;
+		this.edicao = edicao;
 		this.autor = autor;
 	}
 
@@ -27,20 +27,20 @@ public class LivroVO {
 		this.idLivro = idLivro;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
-	public String getAno() {
-		return ano;
+	public String getEdicao() {
+		return edicao;
 	}
 
-	public void setAno(String ano) {
-		this.ano = ano;
+	public void setEdicao(String edicao) {
+		this.edicao = edicao;
 	}
 
 	public String getAutor() {
