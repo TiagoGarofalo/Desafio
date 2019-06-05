@@ -20,13 +20,13 @@ public class ConexaoBanco {
 	 * 
 	 * @return Connection um objeto de conexão JDBC.
 	 * 
-	 * @throws ClassNotFoundException
-	 *             caso o nome completo de DRIVER_MYSQL esteja incorreto ou o
-	 *             driver JDBC do banco selecionado não foi adicionado ao
-	 *             projeto (via .jar ou dependência no pom.xml).
+	 * @throws ClassNotFoundException caso o nome completo de DRIVER_MYSQL esteja
+	 *                                incorreto ou o driver JDBC do banco
+	 *                                selecionado não foi adicionado ao projeto (via
+	 *                                .jar ou dependência no pom.xml).
 	 * 
-	 * @throws SQLException
-	 *             caso a URL_CONEXAO, USUARIO e/ou SENHA estejam incorretos.
+	 * @throws SQLException           caso a URL_CONEXAO, USUARIO e/ou SENHA estejam
+	 *                                incorretos.
 	 */
 	public static Connection getConnection() {
 
@@ -69,7 +69,6 @@ public class ConexaoBanco {
 		}
 	}
 
-	
 	public static void closeStatement(Statement stmt) {
 		try {
 			if (stmt != null) {
@@ -80,7 +79,6 @@ public class ConexaoBanco {
 		}
 	}
 
-
 	public static PreparedStatement getPreparedStatement(Connection conn, String sql) {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -90,7 +88,7 @@ public class ConexaoBanco {
 			return null;
 		}
 	}
-	
+
 	public static PreparedStatement getPreparedStatement(Connection conn, String sql, int tipoRetorno) {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql, tipoRetorno);

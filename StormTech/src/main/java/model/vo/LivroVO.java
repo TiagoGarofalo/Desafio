@@ -6,7 +6,7 @@ public class LivroVO {
 	private String titulo;
 	private String edicao;
 	private String autor;
-	
+
 	public LivroVO() {
 		super();
 	}
@@ -50,5 +50,5 @@ public class LivroVO {
 	public void setAutor(String autor) {
 		this.autor = autor;
 	}
-	
+
 }

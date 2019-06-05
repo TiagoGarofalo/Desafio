@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import model.vo.LivroVO;
 
 public class LivroDAO {
-	
-	public ArrayList<LivroVO> consultarLista(String parametro1) throws SQLException{
-		
+
+	public ArrayList<LivroVO> consultarLista(String parametro1) throws SQLException {
+
 		String query = " SELECT * FROM LIVRO ORDER BY" + parametro1;
 
 		Connection conexao = ConexaoBanco.getConnection();
@@ -37,8 +37,6 @@ public class LivroDAO {
 
 		return consultas;
 	}
-
-	
 
 	public ArrayList<LivroVO> realizarConsultas(String consulta) throws SQLException {
 
