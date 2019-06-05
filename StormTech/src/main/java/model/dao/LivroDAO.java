@@ -8,6 +8,37 @@ import java.util.ArrayList;
 import model.vo.LivroVO;
 
 public class LivroDAO {
+	
+	public ArrayList<LivroVO> consultarLista(String parametro1) throws SQLException{
+		
+		String query = " SELECT * FROM LIVRO ORDER BY" + parametro1;
+
+		Connection conexao = ConexaoBanco.getConnection();
+		PreparedStatement prepStmt = ConexaoBanco.getPreparedStatement(conexao, query);
+		ArrayList<LivroVO> consultas = new ArrayList<LivroVO>();
+
+		ResultSet result = prepStmt.executeQuery();
+
+		try {
+			while (result.next()) {
+				LivroVO l = new LivroVO();
+
+				// Obtendo valores pelo nome da coluna da tabela
+
+				l.setIdLivro(result.getInt("ID_LIVRO"));
+				l.setTitulo(result.getString("TITULO"));
+				l.setAutor(result.getString("AUTOR"));
+				l.setEdicao(result.getString("EDICAO"));
+				consultas.add(l);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return consultas;
+	}
+
+	
 
 	public ArrayList<LivroVO> realizarConsultas(String consulta) throws SQLException {
 

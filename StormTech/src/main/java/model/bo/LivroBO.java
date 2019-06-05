@@ -12,7 +12,7 @@ public class LivroBO {
 	LivroDAO dao = new LivroDAO();
 
 	public List<LivroVO> listarLivros(String consulta) throws SQLException {
-		ArrayList<LivroVO> consulta1 = dao.realizarConsultas(consulta);
+		ArrayList<LivroVO> consulta1 = dao.consultarLista(consulta);
 		return consulta1;
 	}
 }
