@@ -4,77 +4,55 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.swing.JOptionPane;
-
+import java.util.ArrayList;
 import model.vo.LivroVO;
 
 public class LivroDAO {
 
-	public boolean verificaLivro(int idLivro) {
-		String sql = "SELECT COUNT(*) FROM LIVRO WHERE ID_LIVRO = ?";
-		boolean idJaCadastrado = false;
-		
-		Connection conn = ConexaoBanco.getConnection();
-		PreparedStatement stmt = ConexaoBanco.getPreparedStatement(conn, sql);
-		ResultSet resultado = null;
-		try{
-			stmt.setInt(1, idLivro);
-			resultado = stmt.executeQuery();
-			while(resultado.next()){
-				int quantidadeRegistros = resultado.getInt(1);
-				idJaCadastrado = (quantidadeRegistros > 0);
+	public ArrayList<LivroVO> realizarConsultas(String consulta) throws SQLException {
+
+		String parametros = "";
+
+		if (consulta.equalsIgnoreCase("1")) {
+			parametros = " ORDER BY TITULO ASC";
+		}
+
+		if (consulta.equalsIgnoreCase("2")) {
+			parametros = " ORDER BY AUTOR ASC, TITULO DESC";
+		}
+
+		if (consulta.equalsIgnoreCase("3")) {
+			parametros = " ORDER BY EDICAO DESC, AUTOR DESC, TITULO ASC";
+		}
+
+		if (consulta.equalsIgnoreCase("4")) {
+			parametros = " ORDER BY ANO ASC";
+		}
+
+		String query = " SELECT * FROM LIVRO" + parametros;
+
+		Connection conexao = ConexaoBanco.getConnection();
+		PreparedStatement prepStmt = ConexaoBanco.getPreparedStatement(conexao, query);
+		ArrayList<LivroVO> consultas = new ArrayList<LivroVO>();
+
+		ResultSet result = prepStmt.executeQuery();
+
+		try {
+			while (result.next()) {
+				LivroVO l = new LivroVO();
+
+				// Obtendo valores pelo nome da coluna da tabela
+
+				l.setIdLivro(result.getInt("ID_LIVRO"));
+				l.setTitulo(result.getString("TITULO"));
+				l.setAutor(result.getString("AUTOR"));
+				l.setEdicao(result.getString("EDICAO"));
+				consultas.add(l);
 			}
-		} catch (SQLException e){
-			JOptionPane.showMessageDialog(null, "Erro ao consultar o Livro = " + idLivro);
-		} finally {
-			ConexaoBanco.closeResultSet(resultado);
-			ConexaoBanco.closeStatement(stmt);
-			ConexaoBanco.closeConnection(conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return idJaCadastrado;
-	}
 
-	public boolean update(LivroVO livro) {
-		try {
-			Connection conn = ConexaoBanco.getConnection();
-			String sql = "UPDATE LIVRO SET TITULO = ?, AUTOR = ?, EDICAO=? WHERE ID_LIVRO= ?";
-
-			PreparedStatement ps = ConexaoBanco.getPreparedStatement(conn, sql);
-
-			ps.setString(1, livro.getTitulo());
-			ps.setString(2, livro.getAutor());
-			ps.setString(3, livro.getEdicao());
-
-			ps.execute();
-
-			ps.close();
-			conn.close();
-			return true;
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		return false;
-	}
-
-	public boolean insert(LivroVO livro) {
-		Connection conn = ConexaoBanco.getConnection();
-		try {
-			PreparedStatement ps = conn
-					.prepareStatement("INSERT INTO LIVRO " + "(TITULO, AUTOR, EDICAO) " + "VALUES ( ?, ?, ?)");
-			ps.setString(1, livro.getTitulo());
-			ps.setString(2, livro.getAutor());
-			ps.setString(3, livro.getEdicao());
-
-			ps.execute();
-			ps.close();
-			conn.close();
-			return true;
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		return false;
+		return consultas;
 	}
 }

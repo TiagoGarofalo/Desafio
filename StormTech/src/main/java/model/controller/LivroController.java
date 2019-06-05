@@ -1,15 +1,18 @@
 package model.controller;
 
+import java.sql.SQLException;
+import java.util.List;
 
 import model.bo.LivroBO;
 import model.vo.LivroVO;
 
 public class LivroController {
 
-	public boolean salvar(LivroVO livro) {
-		LivroBO bo = new LivroBO();
+	LivroBO bo = new LivroBO();
 
-		return bo.salvar(livro);
+	public List<LivroVO> listarLivros(String consulta) throws SQLException {
+
+		return bo.listarLivros(consulta);
 	}
 
 }

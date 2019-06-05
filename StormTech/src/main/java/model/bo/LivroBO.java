@@ -1,23 +1,18 @@
 package model.bo;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.dao.LivroDAO;
 import model.vo.LivroVO;
 
 public class LivroBO {
 
-	public boolean salvar(LivroVO livro) {
-LivroDAO dao = new LivroDAO();
-		
-		if (dao.verificaLivro(livro.getIdLivro())) {
-			dao.update(livro);
+	LivroDAO dao = new LivroDAO();
 
-		}else dao.insert(livro);
-
-		return true;
+	public List<LivroVO> listarLivros(String consulta) throws SQLException {
+		ArrayList<LivroVO> consulta1 = dao.realizarConsultas(consulta);
+		return consulta1;
 	}
-	}
-
-	
-
-
+}
